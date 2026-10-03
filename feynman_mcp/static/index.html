@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Feynman Teach-Back</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1 id="topic">Waiting for your AI to start a session…</h1>
+      <p class="muted" id="sub">Ask your AI: “Let’s do a teach-back session on &lt;topic&gt;”.</p>
+    </div>
+    <div class="hdr-right">
+      <div class="score" title="Running understanding score"><span id="score">–</span><small>/100</small></div>
+      <label class="toggle"><input type="checkbox" id="tts" checked> Speak questions</label>
+      <span id="conn" class="dot off" title="UI connection"></span>
+    </div>
+  </header>
+
+  <div id="report-banner" class="banner ok hidden">
+    Session complete — <b id="report-grade"></b>. <a id="report-link" target="_blank">Open your report →</a>
+  </div>
+
+  <main>
+    <section class="panel chat">
+      <h2>Your student (AI)</h2>
+      <div id="log"></div>
+    </section>
+
+    <section class="panel board">
+      <div class="tabs">
+        <button class="tab active" data-tab="draw">✏️ Drawing board</button>
+        <button class="tab" data-tab="cam">📷 Whiteboard camera</button>
+      </div>
+
+      <div id="tab-draw" class="tabpane">
+        <div class="toolbar">
+          <span class="swatches">
+            <button class="sw active" data-color="#1d1d1f" style="--c:#1d1d1f" aria-label="black"></button>
+            <button class="sw" data-color="#3b6ef5" style="--c:#3b6ef5" aria-label="blue"></button>
+            <button class="sw" data-color="#d64545" style="--c:#d64545" aria-label="red"></button>
+            <button class="sw" data-color="#1f9d55" style="--c:#1f9d55" aria-label="green"></button>
+            <button class="sw" data-color="#d98a00" style="--c:#d98a00" aria-label="orange"></button>
+          </span>
+          <input type="range" id="size" min="2" max="24" value="4" title="Pen size">
+          <button id="eraser" title="Eraser">🧽 Eraser</button>
+          <button id="text-tool" title="Add a text label">🔤 Label</button>
+          <button id="undo" title="Undo (Ctrl+Z)">↶ Undo</button>
+          <button id="clear" title="Clear">🗑 Clear</button>
+        </div>
+        <canvas id="canvas" width="1600" height="1000"></canvas>
+      </div>
+
+      <div id="tab-cam" class="tabpane hidden">
+        <div class="toolbar">
+          <button id="cam-start">▶ Start camera</button>
+          <select id="cam-select" class="hidden"></select>
+          <button id="cam-snap" disabled>📸 Snap whiteboard</button>
+          <span class="muted">Point the camera at your whiteboard. A fresh frame is sent with your answer.</span>
+        </div>
+        <div class="cam-wrap">
+          <video id="video" autoplay playsinline muted></video>
+          <img id="cam-preview" class="hidden" alt="last whiteboard snapshot">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="composer">
+    <div id="question-bar" class="qbar muted">No question yet.</div>
+    <div class="row">
+      <button id="mic" class="mic" title="Start/stop talking (Space)">🎤</button>
+      <textarea id="answer" rows="3" placeholder="Click the mic and explain out loud — your words appear here. You can also type or edit."></textarea>
+      <div class="send-col">
+        <label><input type="checkbox" id="att-draw"> Attach drawing</label>
+        <label><input type="checkbox" id="att-cam"> Attach whiteboard</label>
+        <button id="send" class="primary" disabled>Send answer ⏎</button>
+      </div>
+    </div>
+    <p id="mic-note" class="muted small"></p>
+  </footer>
+
+  <div id="flag-modal" class="modal hidden" role="alertdialog">
+    <div class="modal-card">
+      <h3>⚠️ Important knowledge check: <span id="flag-concept"></span></h3>
+      <p id="flag-note"></p>
+      <p class="fix" id="flag-fix"></p>
+      <button id="flag-ok" class="primary">Got it — let me re-explain</button>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
